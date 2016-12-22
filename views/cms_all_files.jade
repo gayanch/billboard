@@ -1,0 +1,26 @@
+div(class='')
+	div(class='row')
+		//- div(class='col s12')
+		table(class='bordered striped')
+			thead
+				//- th File Name
+				th Title
+				th Category
+				th Size
+				th Up Date
+				th Actions
+
+			tbody
+				for item, index in data
+					- var size = Math.round(item.size/1024) + ' KB';
+					tr
+						//- td= item.name
+						td= item.title
+						td= item.category
+						td= size
+						td= item.date
+						td
+							a(href='#' class='fa fa-times' onClick="delete_file('#{item._id}', '#{item.name}');" style='margin-right: 24px;' title='Delete File')  &nbsp;
+							a(href='#' class='fa fa-upload' onClick="show_cms_upload_window('#{item._id}');" title='Upload to a Board') &nbsp;
+
+	script(type='text/javascript' src='/javascripts/cms_custom.js')

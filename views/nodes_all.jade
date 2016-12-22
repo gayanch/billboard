@@ -1,0 +1,72 @@
+div(class='container' style='margin-top: 8px;')
+    nav
+        div(class="nav-wrapper")
+            a(href='#' class="brand-logo") &nbsp;All Boards
+
+div(class='container')
+    div(class='row')
+        div(class='col s12 input-field')
+            input(type='text' class='validate' id='search_box')
+            label(for='search_box') Search Nodes
+
+    table(class='bordered striped centered')
+        thead
+            tr(class='centered')
+                th S/N
+                th Board ID
+                th Board Location
+                th Board IP
+                th Board Status
+                th Options
+        tbody
+            for item, index in data
+                tr(id= item.node_id)
+                    td= (index+1)
+                    td= item.node_id
+                    td= item.node_location_city + ' - ' + item.node_location_country
+                    td= item.node_ip
+                    td
+                        span(id='status_#{item.node_id}' class='fa fa-spin fa-spinner')
+                        span(id='status_text_#{item.node_id}') &nbsp;Checking Status
+
+                        script.
+                            check_status('#{item.node_id}', $('#status_#{item.node_id}'), $('#status_text_#{item.node_id}'));
+
+                    td(class='right-align')
+                        a(class='dropdown-button btn' href='#' data-activates='dropdown_#{item.node_id}') Options
+
+                        ul(id='dropdown_#{item.node_id}' class='dropdown-content')
+                            li
+                                a(href='#' onClick="show_upload_window('#{item.node_id}')") Upload File
+                            li
+                                a(href='#' onClick="show_upload_from_cms_window('#{item.node_id}')") Upload from CMS
+                            li
+                                a(href='#' onClick="show_file_manager('#{item.node_ip}', '#{item.node_id}')") File Manager
+                            li
+                                a(href='#' onClick="show_node_edit_window('#{item.node_id}');") Edit Board
+                            li
+                                a(data-target='modal_cnf_del_#{item.node_id}' href='#modal_cnf_del_#{item.node_id}' class='modal-trigger') Delete Node
+
+                        div(id='modal_cnf_del_#{item.node_id}' class='modal bottom-sheet')
+                            div(class='modal-content')
+                                h4 Are You Sure?
+                                p Confrim Delete #{item.node_id}
+                            div(class='modal-footer')
+                                a(class='modal-action modal-close waves-effect waves-green btn-flat' onClick="delete_node('#{item.node_id}');") YES
+                                a(class='modal-action modal-close waves-effect waves-green btn-flat' onClick="Materialize.toast('Abort!', 4000);") NO
+
+        script(type='text/javascript' src='/materialize/js/materialize.min.js')
+
+        script.
+            $(document).ready(function(){
+                $('.modal-trigger').leanModal({
+                  dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                  opacity: .5, // Opacity of modal background
+                  in_duration: 0, // Transition in duration
+                  out_duration: 0, // Transition out duration
+                  starting_top: '4%', // Starting top style attribute
+                  ending_top: '10%', // Ending top style attribute
+                //-   ready: function() { alert('Ready'); }, // Callback for Modal open
+                //-   complete: function() { alert('Closed'); } // Callback for Modal close
+                });
+            });

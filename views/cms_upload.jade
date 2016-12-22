@@ -1,0 +1,19 @@
+div(class='container')
+	div(class='row')
+		div(class='col s8 offset-s2')
+			form(id='frm' target='upload_status' method='post' action='cms/upload/' enctype='multipart/form-data')
+				div(class='input-field')
+					input(class='validate' type='text' id='title' name='title')
+					label(for='title' style='left: 0;') Video Title
+				
+				div(class='input-field')
+					input(class='validate' type='text' id='category' name='category')
+					label(for='category' style='left: 0;') Video Category
+				
+				div(class='input-field')
+					input(class='validate' type='file' id='file' name='file')
+					
+				div(class='input-field')
+					input(class='validate btn' type='submit' value='Upload')
+			
+			iframe(id='ifupd' name='upload_status' style='border: 0; margin-top: 36px;')				

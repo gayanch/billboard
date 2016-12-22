@@ -1,0 +1,25 @@
+div(class='container')  
+    -   var size = data.length
+    if size == 0
+        p(class='panel panel-danger thumbnail well-lg h1 text-center text-danger') All Nodes are Offline
+    else
+        each item, index in data
+          div(class='row')
+            div(class='col-md-12 panel panel-primary well-lg')
+                  p
+                      span(class='badge') ID: 
+                      span(id='node_id' class='pull-right') item.node_id
+                  
+                  p            
+                      span(class='badge') Location: 
+                      span(id='node_id' class='pull-right') item.node_location_city + ' - ' + item.node_location_country
+                  
+                  p            
+                      span(class='badge') Status:
+                      span(id='node_id' class='pull-right') item.status
+                  
+                  div(class='btn-group btn-group-justified')
+                    a(class='btn btn-primary' href='#') Node Stats            
+                    a(class='btn btn-primary' href='#') Upload Ad
+                    a(class='btn btn-danger' href='#') Delete Outdated Ads
+                    a(class='btn btn-danger' href='#') Delete Node

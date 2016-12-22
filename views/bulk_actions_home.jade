@@ -1,0 +1,75 @@
+!= "<script type='text/javascript'>"
+!= "var nodes = [];"
+- for item, index in data
+	!= "nodes.push(" + JSON.stringify(item) + ");"
+!= "</script>"
+
+div(class='container' style='margin-top: 8px;')
+	nav
+		div(class="nav-wrapper")
+			a(href='#' class="brand-logo") &nbsp; Bulk Actions
+
+div(class='container' style='margin-top: 36px;')
+	div(class='row')
+		div(class='col s12')
+			table(class='bordered highlight centered')
+				thead
+					th S/N
+					th Board ID
+					th IP
+					th Location
+					th Select
+				tbody
+					for item, index in data
+						tr(id=item.node_id)
+							td= (index + 1)
+							td= item.node_id
+							td= item.node_ip
+							td= item.node_location_city + ' - ' + item.node_location_country
+							td
+								input(type='checkbox' id='check_#{item.node_id}' value=item.node_id)
+								label(for='check_#{item.node_id}')
+
+					tr
+						td(colspan='5')
+							button(class='btn waves-effect left' id='delete') Delete
+							button(class='btn waves-effect right') Upload from CMS
+							//- button(class='btn waves-effect') Delete
+
+	//- script(type='text/javascript' src='/javascripts/jquery.min.js')
+	script.
+		$(document).ready(function() {
+			function get_selected_nodes() {
+				var ret = [];
+				for (i=0; i<nodes.length; i++) {
+					var item = '#check_' + nodes[i].node_id;
+					if ($(item).is(':checked')) {
+						ret.push(nodes[i].node_id);
+					}
+				}
+				return ret;
+			}
+
+			$('#delete').on('click', function(e) {
+				var selected = get_selected_nodes();
+
+				if (selected.length == 0) {
+					Materialize.toast('Please select one or more items', 4000);
+					return;
+				}
+
+				Materialize.toast("Processing...", 2000);
+
+				for (i=0; i<selected.length; i++) {
+					$.ajax({
+						url: '/node/' + selected[i] + '/delete',
+						type: 'get',
+						success: function(response) {
+							Materialize.toast(response, 2000);
+						}
+					});
+
+					$('#' + selected[i]).addClass('hide');
+				}
+			});
+		});

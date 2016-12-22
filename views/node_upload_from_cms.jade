@@ -1,0 +1,43 @@
+doctype html
+html
+	head
+		link(rel='stylesheet' href='/materialize/css/materialize.min.css')
+		link(rel='stylesheet' href='/font-awesome/css/font-awesome.min.css')	    
+		script(type='text/javascript' src='/javascripts/jquery.min.js')
+
+	body
+		div(class='container-fluid' style='margin-top: 8px;')
+			nav
+				div(class="nav-wrapper")
+					a(href='#' class="brand-logo") &nbsp;Upload to #{node.node_id}
+					
+		div(class='container-fluid' style='margin-top: 36px;')
+			//- div(class='row')
+			//- 	div(class='col s12')
+			//- 		h3(class='center-align teal-text text-lighten-1') CMS Upload to #{node_id}
+			
+			div(class='row')
+				div(class='col s12 input-field')
+					form(target='msg' id='frm' action='#{node.node_ip}/async-upload', method='post')
+						label() Select Video Title
+						br
+						br
+						select(id='uploadfile' name='url' style='display: block;')
+							for item, index in data
+								option(value='#{host}/cms_files/#{item.name}')= item.title					
+						br
+						input(type='submit' class='btn' value='Upload')
+					
+					iframe(name='msg' style='border: 0; width: 100%;')
+		script(type='text/javascript' src='/materialize/js/materialize.min.js')
+		//- script.
+		//- 	$('#submit').on('click', function() {
+		//- 		$.ajax({
+		//- 			url: '#{node.node_ip}/async-upload',
+		//- 			type: 'post',
+		//- 			data: {url: $('#uploadfile').val()},
+		//- 			success: function(response) {
+		//- 				alert(response);
+		//- 			}
+		//- 		});
+		//- 	});

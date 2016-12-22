@@ -1,0 +1,75 @@
+div(class='container' style='margin-top: 8px;')
+	nav
+		div(class="nav-wrapper")
+			a(href='#' class="brand-logo") &nbsp;Register Board
+
+div(class='container' style='margin-top: 32px;')		
+	div(class='row')
+		form(class='col s8 offset-s2')
+			div(class='input-field')
+				input(class='validate' type='text' id='node_id')
+				label(class='active' for='node_id' style='left: 0;') Board ID
+				
+			div(class='input-field')
+				input(class='validate' type='text' id='node_ip')
+				label(class='active' for='node_ip' style='left: 0;') Board IP or Domain Name
+				
+			div(class='input-field')
+				input(class='validate' type='text' id='node_location_city')
+				label(class='active' for='node_location_city' style='left: 0;') Board Location - City
+				
+			div(class='input-field')
+				input(class='validate' type='text' id='node_location_country')
+				label(class='active' for='node_location_country' style='left: 0;') Board Location - Country
+				
+			p
+				input(type='submit' class='waves-light btn waves-effect' value='Register' id='register_btn')
+				input(type='reset' class='waves-light btn waves-effect right' value='Clear')
+			
+			//- div(class='form panel thumbnail well-lg panel-primary')
+			//- 	p
+			//- 		span Node ID
+			//- 		input(class='form-control' type='text' id='node_id' placeholder='Ex: node0001')
+			//- 	p
+			//- 		span Node IP or Domain Name
+			//- 		input(class='form-control' type='text' id='node_ip' placeholder='Ex: 192.168.8.150')
+			//- 	p
+			//- 		span Node Location
+			//- 		input(class='form-control' type='text' id='node_location_city' placeholder='City')
+			//- 	p
+			//- 		input(class='form-control' type='text' id='node_location_country' placeholder='Country')
+			//- 		
+			//- 	p
+			//- 		input(type='submit' class='btn btn-default' value='Register' id='register_btn')
+	
+	script.
+		$(document).ready(function() {
+			Materialize.updateTextFields();
+		});
+		
+		$('#register_btn').on('click', function(e) {
+			e.preventDefault();
+			
+			var node_id = $("#node_id").val();
+			var node_ip = $("#node_ip").val();
+			var node_location = $("#node_location").val();
+			var node_location_city = $("#node_location_city").val();
+			var node_location_country = $("#node_location_country").val();
+			
+			var data = {node_id: node_id, 
+				node_ip: node_ip, 
+				node_location: node_location, 
+				node_location_city: node_location_city,
+				node_location_country: node_location_country,
+			};
+			
+			$.ajax({
+				url: 'node/register',
+				type: 'post',
+				data: data,
+				success: function(status) {
+					Materialize.toast(status, 4000)
+				}
+			});
+		});
+			

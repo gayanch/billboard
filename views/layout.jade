@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    //- link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/materialize/css/materialize.min.css')
+    link(rel='stylesheet' href='/font-awesome/css/font-awesome.min.css')
+
+    script(type='text/javascript' src='/javascripts/jquery.min.js')
+    script(type='text/javascript' src='/javascripts/custom.js')
+    //- script(type='text/javascript' src='/javascripts/bootstrap.min.js')
+
+
+  body
+    ul(id="slide-out" class="side-nav fixed")
+        li(class='center-align' style='margin-top: 20px;')
+            div(class='')
+                img(src='/images/logo.png' class='background responsive-img')
+            h5 Management System
+        li
+            div(class='divider')
+        li
+            a(href="#" id='all_nodes' class='waves-light btn waves-effect') All Boards
+        li
+            a(href="#" id='register_node' class='waves-light btn waves-effect') Register Board
+        li
+            a(href="#" id='cms' class='waves-light btn waves-effect') CMS
+        li
+            a(href="#" id='bulk_actions' class='waves-light btn waves-effect') Bulk Actions
+        li
+            a(href='#' id='help' class='waves-light btn waves-effect') User Management
+        li
+            a(href='/login/logout' class='waves-light btn waves-effect') Logout
+
+    block content

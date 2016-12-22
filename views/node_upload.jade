@@ -1,0 +1,25 @@
+doctype html
+html
+	head
+		title Upload
+		link(rel='stylesheet' href='/materialize/css/materialize.min.css')
+		
+	body
+		div(class='container-fluid' style='margin-top: 8px;')
+			nav
+				div(class="nav-wrapper")
+					a(href='#' class="brand-logo") &nbsp;Upload to #{data.node_id}
+					
+		//- div(class='container-fluid')
+		//- 	div(class='row')
+		//- 		h3(class='center-align teal-text text-lighten-1') Upload to #{data.node_id}
+		div(class='container-fluid' style='margin-top: 36px;')
+			div(class='row')
+				div(class='col s4 offset-s4')
+					form(class='' target='msg' action='#{data.node_ip}/upload' enctype='multipart/form-data' method='post')
+						div(class='input-field')
+							input(class='validate' name='uploadfile' type='file' id='file_ch')
+						div(class='input-field')
+							input(type='submit' class='waves-light btn waves-effect' value='Upload File')
+					
+				iframe(name='msg' style='border: 0; margin-top: 36px; width: 100%;')
