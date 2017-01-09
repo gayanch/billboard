@@ -1,7 +1,7 @@
 function show_upload_window(node_id) {
 	if (!is_online(node_id)) {
-		Materialize.toast("Sorry! Board is currently offline.", 4000);
-		return;
+		// Materialize.toast("Sorry! Board is currently offline.", 4000);
+		// return;
 	}
 
 	var left = (screen.width/2)-(600/2);
@@ -22,8 +22,8 @@ function show_upload_window(node_id) {
 
 function show_upload_from_cms_window(node_id) {
 	if (!is_online(node_id)) {
-		Materialize.toast("Sorry! Board is currently offline.", 4000);
-		return;
+		// Materialize.toast("Sorry! Board is currently offline.", 4000);
+		// return;
 	}
 
 	var left = (screen.width/2)-(600/2);
@@ -142,8 +142,8 @@ function check_status(node_id, icon_elm, text_elm) {
 function show_file_manager(node_ip, node_id) {
 	console.log(is_online(node_id));
 	if (!is_online(node_id)) {
-		Materialize.toast("Sorry! Board is currently offline.", 4000);
-		return;
+		// Materialize.toast("Sorry! Board is currently offline.", 4000);
+		// return;
 	}
 
 	var left = (screen.width/2)-(600/2);

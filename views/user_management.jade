@@ -47,21 +47,40 @@ div(class='container' style='margin-top: 32px;')
 						option(value='user') admin
 				td
 					a(href='#' class='fa fa-floppy-o' title='Save New User' onClick='add_new_user();')
+script(type='text/javascript' src='/javascripts/validator.js')
 script.
 	function edit_user(index) {
-		var username_el = $('#username_' + index);
-		var password_el = $('#password_' + index);
-		var level_el = $('#level_' + index);
-		var user_id_el = $('#id_' + index );
+		var username = $('#username_' + index).val();
+		var password = $('#password_' + index).val();
+		var level = $('#level_' + index).val();
+		var user_id = $('#id_' + index ).val();
+
+		if (username == '' ||
+			password == '' ||
+			level == '') {
+				Materialize.toast("All fields are mandatory!", 4000);
+				return;
+		}
+
+		var v = new Validator();
+		if (!v.alphanumeric(username)) {
+			Materialize.toast("Username should be alphanumeric", 4000);
+			return;
+		}
+
+		if (!v.alphanumeric(level)) {
+			Materialize.toast("Invalid Level", 4000);
+			return;
+		}
 
 		$.ajax({
 			url: '/users/update',
 			method: 'post',
 			data: {
-				id: user_id_el.val(),
-				username: username_el.val(),
-				password: password_el.val(),
-				level: level_el.val(),
+				id: user_id,
+				username: username,
+				password: password,
+				level: level,
 			},
 			success: function(response) {
 				Materialize.toast(response, 4000);
@@ -92,6 +111,17 @@ script.
 		var username = $('#n_username').val();
 		var password = $('#n_password').val();
 		var level = $('#n_level').val();
+
+		var v = new Validator();
+		if (!v.alphanumeric(username)) {
+			Materialize.toast("Username should be alphanumeric", 4000);
+			return;
+		}
+
+		if (!v.alphanumeric(level)) {
+			Materialize.toast("Invalid Level", 4000);
+			return;
+		}
 
 		$.ajax({
 			url: '/users/new',
