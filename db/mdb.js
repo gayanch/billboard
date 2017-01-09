@@ -211,6 +211,77 @@ function auth_user(username, password, callback) {
 	});
 }
 
+function get_user_list(callback) {
+	mongoClient.connect(url, function(err, db) {
+		if (err) {
+			callback(err, 'Can\'t connect to the server');
+		} else {
+			var collection = db.collection('users');
+			collection.find().toArray(function(err, res) {
+				if (err) {
+					callback(err, 'Find Failed');
+				} else {
+					if (res.length == 0) {
+						callback('No Users Found', 'No Users Found');
+					} else {
+						callback(null, res);
+					}
+
+				}
+			});
+		}
+	});
+}
+
+function update_user(id, username, password, level, callback) {
+	mongoClient.connect(url, function(err, db) {
+		if (err) {
+			callback(err, 'Can\'t connect to the server');
+		} else {
+			var collection = db.collection('users');
+			collection.update({_id: new ObjectId(id)}, {
+				username: username,
+				password: password,
+				level: level,
+			}, function(err, result) {
+				callback(err, result);
+			});
+		}
+	});
+}
+
+function delete_user(id, callback) {
+	mongoClient.connect(url, function(err, db) {
+		if (err) {
+			callback(err, 'Can\'t connect to the server');
+		} else {
+			var collection = db.collection('users');
+			collection.remove({_id: new ObjectId(id)}, function(err, result) {
+				callback(err, result);
+			});
+		}
+	});
+}
+
+function add_new_user(username, password, level, callback) {
+	mongoClient.connect(url, function(err, db) {
+		if(err) {
+			callback(err, 'Can\'t connect to the server')
+		} else {
+			var collection = db.collection('users');
+			collection.insertOne({username: username, password: password, level: level},
+				function(err, res) {
+
+				if (err) {
+					callback(err, 'Save Error');
+				} else {
+					callback(null, 'Saved');
+				}
+			});
+		}
+	});
+}
+
 module.exports = {
 	//node
 	register_node	: register_node,
@@ -229,6 +300,10 @@ module.exports = {
 
 	//user management functions
 	auth_user: auth_user,
+	get_user_list: get_user_list,
+	update_user: update_user,
+	delete_user: delete_user,
+	add_new_user: add_new_user,
 
 	//new generic funcs
 	get: get

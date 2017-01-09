@@ -17,6 +17,7 @@ router.post('/', function(req, res, next) {
         } else {
             req.session.login = true;
             req.session.level = data;
+            console.log(data);
             var ok_res = "Login Success!" +
                 "<script>"+
                 "setTimeout(function() {" +

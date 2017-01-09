@@ -1,0 +1,125 @@
+div(class='container' style='margin-top: 8px')
+	nav
+		div(class='nav-wrapper')
+			a(href='#' class='brand-logo') &nbsp; User Management
+
+div(class='container' style='margin-top: 32px;')
+	table(class='bordered striped centered')
+		thead
+			tr(class='centered')
+				th S/N
+				th username
+				th Password
+				th Login Level
+				th Actions
+		tbody
+			for item, index in data
+				input(type='hidden' value='#{item._id}' id='id_#{index}')
+				tr
+					td= (index+1)
+					td
+						input(type='text' value='#{item.username}' id='username_#{index}')
+					td
+						input(type='password' value='#{item.password}' id='password_#{index}')
+					td
+						select(style='display: block' id='level_#{index}')
+							option(value='#{item.level}')= item.level
+							if item.level == 'admin'
+								option(value='user') user
+							else
+								option(value='admin') admin
+					td
+						a(href='#' class='fa fa-times' title='Delete User' onClick='delete_user(#{index});')
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						a(href='#' class='fa fa-floppy-o' title='Save Changes' onClick='edit_user(#{index});')
+			tr
+				td(colspan='5') Add New User
+
+			tr
+				td New
+				td
+					input(class='validate' type='text' id='n_username' placeholder='Username')
+				td
+					input(class='validate' type='password' id='n_password' placeholder='Password')
+				td
+					select(class='validate' style='display: block' id='n_level')
+						option(value='user') user
+						option(value='user') admin
+				td
+					a(href='#' class='fa fa-floppy-o' title='Save New User' onClick='add_new_user();')
+script.
+	function edit_user(index) {
+		var username_el = $('#username_' + index);
+		var password_el = $('#password_' + index);
+		var level_el = $('#level_' + index);
+		var user_id_el = $('#id_' + index );
+
+		$.ajax({
+			url: '/users/update',
+			method: 'post',
+			data: {
+				id: user_id_el.val(),
+				username: username_el.val(),
+				password: password_el.val(),
+				level: level_el.val(),
+			},
+			success: function(response) {
+				Materialize.toast(response, 4000);
+			}
+		});
+	}
+
+	function delete_user(index) {
+		var username = $('#username_' + index).val();
+		var id = $('#id_' + index ).val();
+
+		var ret = window.confirm("Are you sure to delete " + username + "?");
+		if (ret == true) {
+			$.ajax({
+				url: '/users/delete',
+				method: 'post',
+				data: {id: id},
+				success: function(response) {
+					Materialize.toast(response, 4000);
+				}
+			});
+		} else {
+			Materialize.toast("Abort!", 4000);
+		}
+	}
+
+	function add_new_user() {
+		var username = $('#n_username').val();
+		var password = $('#n_password').val();
+		var level = $('#n_level').val();
+
+		$.ajax({
+			url: '/users/new',
+			method: 'post',
+			data: {username: username, password: password, level: level},
+			success: function(response) {
+				Materialize.toast(response, 4000);
+			}
+		});
+	}
+//- div(class='container' style='margin-top: 8px;')
+//-     nav
+//-         div(class="nav-wrapper")
+//-             a(href='#' class="brand-logo") &nbsp;User Management
+
+//- div(class='container')
+//- 	p Hello Gi
+	//- table(class='bordered striped centered')
+	//- 	thead
+	//- 		tr(class='centered')
+	//- 			th S/N
+	//- 			th Username
+	//- 			th Password
+	//- 			th User Level
+	//- 	tbody
+	//- 		for item, index in data
+	//- 			tr
+	//- 				td= (index +1)
+	//- 				td item.username
+	//- 				td item.password
+	//- 				td item.level

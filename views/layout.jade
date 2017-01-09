@@ -28,8 +28,10 @@ html
             a(href="#" id='cms' class='waves-light btn waves-effect') CMS
         li
             a(href="#" id='bulk_actions' class='waves-light btn waves-effect') Bulk Actions
-        li
-            a(href='#' id='help' class='waves-light btn waves-effect') User Management
+        if level == 'admin'
+            li
+                a(href='#' id='users' class='waves-light btn waves-effect') User Management
+
         li
             a(href='/login/logout' class='waves-light btn waves-effect') Logout
 

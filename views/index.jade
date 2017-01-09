@@ -2,41 +2,41 @@ extends layout
 
 block content
     div(id='main_content')
-    
+
     script(type='text/javascript').
         $("#main_content").load('/nodes/all');
-        
+
         //- $("#connected_nodes").on('click', function(e) {
         //-     e.preventDefault();
         //-     $("#main_content").load('/nodes/connected');
         //- });
-        
+
         $("#all_nodes").on('click', function(e) {
             e.preventDefault();
             $("#main_content").load('/nodes/all');
         });
-        
+
         $("#register_node").on('click', function(e) {
             e.preventDefault();
             $("#main_content").load('/node/register');
         });
-        
+
         $("#cms").on('click', function(e) {
             e.preventDefault();
             $("#main_content").load('/cms');
         });
-        
+
         $("#bulk_actions").on('click', function(e) {
             e.preventDefault();
             $("#main_content").load('/bulk-actions');
             //Materialize.toast("Sorry, This feature is under construction.", 4000);
         });
-        
-        $("#help").on('click', function(e) {
+
+        $("#users").on('click', function(e) {
             e.preventDefault();
-            Materialize.toast("Sorry, This feature is under construction.", 4000);
+            $("#main_content").load('/users');
         });
-        
+
         $("#about").on('click', function(e) {
             e.preventDefault();
             Materialize.toast("Sorry, This feature is under construction.", 4000);

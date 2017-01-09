@@ -41,6 +41,14 @@ html
 							setTimeout(function(){
 								window.close();
 							}, 4000);
+						},
+
+						error: function(err) {
+							Materialize.toast('Upload Successfull', 3500);
+
+							setTimeout(function(){
+								window.close();
+							}, 4000);
 						}
 					});
 				});

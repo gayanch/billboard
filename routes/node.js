@@ -68,31 +68,38 @@ router.get('/:node_id/upload-cms', function(req, res, next) {
 
 router.get('/:node_id/status', function(req, res, next) {
 	node_id = req.params['node_id'];
+	var headersSent = false;
 	db.get_node(node_id, function (err, data) {
 		if (data.length > 0) {
 			node = data[0];
-			var headersSent = false;
 
 			var request = http.get(node.node_ip + '/ping', function(response) {
 				console.log('online');
-				headersSent = true;
-				res.send('Online');
+				if(!headersSent) {
+					headersSent = true;
+					res.send('Online');
+				}
 			}).on('error', function (e) {
 				console.log('offline ' + e);
-				headersSent = true;
-				res.send('Offline');
+				if(!headersSent) {
+					headersSent = true;
+					res.send('Offline');
+				}
 			});
 
 			request.setTimeout(7500, function() {
 				if(!headersSent) {
+					headersSent = true;
 					res.send('Offline');
-
 				}
 				console.log('timed out' + headersSent);
 			});
 		} else {
 			console.log('offline');
-			res.send('Offline');
+			if(!headersSent) {
+				headersSent = true;
+				res.send('Offline');
+			}
 		}
 	});
 });
@@ -116,7 +123,22 @@ router.get('/:node_id/edit', function(req, res, next) {
 });
 
 router.post('/:node_id/edit', function(req, res, next) {
-    res.send('ok');
+	var data = {node_id: 			req.body.node_id,
+		node_ip: 					req.body.node_ip,
+		node_location_city: 		req.body.node_location_city,
+		node_location_country:		req.body.node_location_country,
+	};
+	console.log(data);
+    db.delete_node(req.body.node_id, function(err, msg) {
+		console.log(err);
+	});
+	db.register_node(data, function(err, msg) {
+		if (err != null) {
+			res.send(msg);
+		} else {
+			res.send("Update Successfull.");
+		}
+	});
 });
 
 // router.get('/:node_id/info', function(req, res, next) {
